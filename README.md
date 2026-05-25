@@ -2,8 +2,11 @@
 
 [![npm version](https://img.shields.io/npm/v/wb-mcp-server)](https://www.npmjs.com/package/wb-mcp-server)
 [![license](https://img.shields.io/npm/l/wb-mcp-server)](LICENSE)
+[![telegram](https://img.shields.io/badge/Telegram-%40dmkosik-26A5E4?logo=telegram&logoColor=white)](https://t.me/dmkosik)
 
 [Русская версия](README.ru.md)
+
+**Author:** Дмитрий Косик · 📢 [Telegram channel @dmkosik](https://t.me/dmkosik) · 💬 [Contact author @feeyh](https://t.me/feeyh)
 
 MCP server for the Wildberries Seller API. Connect any AI agent (Claude Desktop, OpenClaw, or any MCP client) to your Wildberries store.
 
@@ -56,7 +59,7 @@ Create an API token in your [WB Seller Dashboard](https://seller.wildberries.ru/
 
 ## Updating to the latest version
 
-New versions are released regularly — for example, v0.3.0 added 5 new tools (prices, ad balance, inventory). The server does **not** auto-update — you need to update it manually.
+New versions are released regularly — for example, v0.4.0 added 10 new tools (acquiring report, sales summary, content cards, supplies, documents, seller info, item rating). The server does **not** auto-update — you need to update it manually.
 
 ### Step 1. Update the package
 
@@ -164,6 +167,21 @@ Or ask Claude: *"Which wb-mcp-server tools are available to you?"* — v0.4.0 sh
 |---|---|---|
 | `get_seller_info` | Name, INN, trademark | read |
 | `get_jam_subscription` | Jam subscription status (requires Service token) | read |
+
+## Example prompts
+
+Ask your AI agent (after connecting the MCP server):
+
+- *"How many unanswered reviews do I have?"*
+- *"Show me the seller rating and feedback breakdown by star for the last 2 weeks"*
+- *"Give me a weekly P&L summary: payouts, logistics, storage, penalties"*
+- *"List the latest financial documents (invoices, weekly reports)"*
+- *"Show acquiring fees for the past month"*
+- *"What's my current account balance and how much can I withdraw?"*
+- *"Find product card by nmID 391083595"*
+- *"List my open FBS supplies"*
+- *"How many sales did I have last week?"*
+- *"Which products convert best from views to orders?"*
 
 ## Configuration
 
