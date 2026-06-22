@@ -1,6 +1,7 @@
 export const BASE_URLS = {
   content: "https://content-api.wildberries.ru",
   marketplace: "https://marketplace-api.wildberries.ru",
+  supplies: "https://supplies-api.wildberries.ru",
   statistics: "https://statistics-api.wildberries.ru",
   advertising: "https://advert-api.wildberries.ru",
   feedbacks: "https://feedbacks-api.wildberries.ru",

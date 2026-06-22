@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.4.3 (2026-06-22)
+
+### Removed (1)
+
+- **get_incomes** — endpoint `GET /api/v1/supplier/incomes` отключён WB без замены. Перепроверено 11 альтернативных путей (v2/v3, разные хосты) — все 404, при этом соседние `orders`/`sales` на том же хосте и токене работают. Метод удалён, для сверки приёмки используйте новые FBW-методы (`get_fbw_supply_goods`).
+
+### Features — 7 новых инструментов (29 → 35)
+
+**FBW-поставки (на склады WB) — закрывают задачу сверки приёмки по баркодам:**
+- **get_fbw_supplies** — `POST https://supplies-api.wildberries.ru/api/v1/supplies`. Список поставок FBW с числовыми ID (например 38419461).
+- **get_fbw_supply** — `GET .../api/v1/supplies/{supplyID}`. Детали поставки: склад, дата приёмки, заявлено/принято.
+- **get_fbw_supply_goods** — `GET .../api/v1/supplies/{supplyID}/goods`. **Главный метод для сверки.** Состав поставки по баркодам: vendorCode, nmID, techSize, color, quantity, acceptedQuantity.
+- **get_fbw_supply_package** — `GET .../api/v1/supplies/{supplyID}/package`. Раскладка по коробам (packageCode + баркоды в каждом коробе).
+- **get_wb_warehouses** — `GET .../api/v1/warehouses`. Справочник складов WB (ID, name, address, workTime).
+
+**Платная приёмка и коэффициенты:**
+- **get_paid_acceptance_report** — `GET https://seller-analytics-api.wildberries.ru/api/v1/acceptance_report` (async: create → polling → download). Отчёт о расходах на платную приёмку за период.
+- **get_acceptance_coefficients** — `GET https://common-api.wildberries.ru/api/tariffs/v1/acceptance/coefficients`. Коэффициенты приёмки складов на 14 дней (0 — бесплатно, 1+ — платная, -1 — приёмки нет).
+
+### Notes
+
+- Добавлен новый host в `BASE_URLS.supplies = "https://supplies-api.wildberries.ru"`.
+- Все 7 новых endpoints проверены на живом WB API 2026-06-22.
+
 ## 0.4.2 (2026-06-19)
 
 ### Features — 1 новый инструмент (28 → 29)

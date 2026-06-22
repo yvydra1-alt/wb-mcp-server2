@@ -95,6 +95,78 @@ export function registerAnalyticsTools(server: McpServer, client: WBClient): voi
     },
   );
 
+  // get_paid_acceptance_report — отчёт о платной приёмке (async)
+  server.registerTool(
+    "get_paid_acceptance_report",
+    {
+      description: `Отчёт о платной приёмке FBW за период. Платная приёмка применяется, когда селлер привозит товар на склад с низким коэффициентом приёмки.
+Асинхронный: создаёт задачу → ожидает готовности → скачивает результат. Может занять до 60 секунд.
+Возвращает массив строк по каждой платной приёмке: дата, склад, supplyID, артикул, сумма списания. Используй для аудита расходов на приёмку.`,
+      inputSchema: {
+        dateFrom: z.string().describe("Начало периода, YYYY-MM-DD"),
+        dateTo: z.string().describe("Конец периода, YYYY-MM-DD"),
+      },
+    },
+    async (args) => {
+      try {
+        const created = await client.get<any>(
+          BASE_URLS.analytics,
+          "/api/v1/acceptance_report",
+          { dateFrom: args.dateFrom, dateTo: args.dateTo },
+        );
+
+        const taskId: string | undefined = created?.data?.taskId ?? created?.taskId;
+        if (!taskId) {
+          return {
+            content: [{ type: "text" as const, text: `Не удалось получить taskId из ответа WB: ${JSON.stringify(created)}` }],
+            isError: true,
+          };
+        }
+
+        const maxAttempts = 12;
+        const intervalMs = 5000;
+        let status = "";
+
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          await new Promise((r) => setTimeout(r, intervalMs));
+          const statusResp = await client.get<any>(
+            BASE_URLS.analytics,
+            `/api/v1/acceptance_report/tasks/${taskId}/status`,
+          );
+          status = statusResp?.data?.status ?? statusResp?.status ?? "";
+          if (status === "done") break;
+          if (status === "canceled" || status === "purged") {
+            return {
+              content: [{ type: "text" as const, text: `Задача завершилась со статусом: ${status}` }],
+              isError: true,
+            };
+          }
+        }
+
+        if (status !== "done") {
+          return {
+            content: [{ type: "text" as const, text: `Задача не готова за 60 секунд (последний статус: ${status}). Попробуйте позже.` }],
+            isError: true,
+          };
+        }
+
+        const result = await client.get<any>(
+          BASE_URLS.analytics,
+          `/api/v1/acceptance_report/tasks/${taskId}/download`,
+        );
+
+        return {
+          content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: "text" as const, text: formatError(error) }],
+          isError: true,
+        };
+      }
+    },
+  );
+
   // get_item_rating
   server.registerTool(
     "get_item_rating",

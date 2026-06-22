@@ -91,9 +91,9 @@ Quit the app **from the system tray** (not just closing the window), then reopen
 npm list -g wb-mcp-server
 ```
 
-Or ask Claude: *"Which wb-mcp-server tools are available to you?"* — v0.4.2 should show 29 tools.
+Or ask Claude: *"Which wb-mcp-server tools are available to you?"* — v0.4.3 should show 35 tools.
 
-## Available Tools (29)
+## Available Tools (35)
 
 ### Reviews & Questions
 
@@ -112,7 +112,6 @@ Or ask Claude: *"Which wb-mcp-server tools are available to you?"* — v0.4.2 sh
 | `get_stocks` | Warehouse stock levels | read |
 | `get_orders` | Recent orders | read |
 | `get_sales` | Sales data | read |
-| `get_incomes` | Incoming shipments to WB warehouses (acceptance) | read |
 | `get_financial_report` | Detailed report: commissions, logistics, storage, penalties | read |
 | `get_nm_report` | Per-product report (views, cart, orders, buyouts) | read |
 | `get_warehouses_inventory` | Real-time warehouse inventory report (async) | read |
@@ -155,6 +154,18 @@ Or ask Claude: *"Which wb-mcp-server tools are available to you?"* — v0.4.2 sh
 |---|---|---|
 | `get_supplies` | FBS supplies list | read |
 | `create_supply` | Create a new open FBS supply | **write** |
+
+### FBW Supplies (to WB warehouses)
+
+| Tool | Description | Type |
+|---|---|---|
+| `get_fbw_supplies` | FBW supplies list with numeric IDs (e.g. 38419461) | read |
+| `get_fbw_supply` | FBW supply details: warehouse, dates, declared/accepted qty | read |
+| `get_fbw_supply_goods` | **Supply composition by barcode** — for acceptance reconciliation | read |
+| `get_fbw_supply_package` | Supply boxes layout | read |
+| `get_wb_warehouses` | WB warehouses reference | read |
+| `get_paid_acceptance_report` | Paid acceptance report (async) | read |
+| `get_acceptance_coefficients` | WB warehouse acceptance coefficients for 14 days | read |
 
 ### Documents
 

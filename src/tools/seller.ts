@@ -25,6 +25,29 @@ export function registerSellerTools(server: McpServer, client: WBClient): void {
     },
   );
 
+  // get_acceptance_coefficients — коэффициенты приёмки складов WB на 14 дней
+  server.registerTool(
+    "get_acceptance_coefficients",
+    {
+      description: `Коэффициенты приёмки складов WB на ближайшие 14 дней. По каждой паре «склад × дата» возвращает коэффициент: 0 — приёмка бесплатная, 1+ — платная (множитель к стоимости), -1 — приёмки нет.
+Используй для планирования FBW-поставок: выбирай склад/дату с коэффициентом 0, чтобы избежать платной приёмки.`,
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        const data = await client.get<any>(BASE_URLS.common, "/api/tariffs/v1/acceptance/coefficients");
+        return {
+          content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [{ type: "text" as const, text: formatError(error) }],
+          isError: true,
+        };
+      }
+    },
+  );
+
   // get_jam_subscription
   server.registerTool(
     "get_jam_subscription",
