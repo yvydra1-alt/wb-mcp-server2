@@ -3,7 +3,7 @@
     "wildberries": {
       "command": "wb-mcp-server",
       "env": {
-        "WB_API_TOKEN": "your_token_here"
+        "WB_API_TOKEN": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjIwMjYwMzAydjEiLCJ0eXAiOiJKV1QifQ.eyJhY2MiOjMsImVudCI6MSwiZXhwIjoxNzk5ODA5Mzg0LCJmb3IiOiJzZWxmIiwiaWQiOiIwMTlmNjEyNy0yOGUyLTc0ZTYtYjkyOC0xMmIyODIwMWU3YTIiLCJpaWQiOjI2ODQ2NjQ2LCJvaWQiOjU5NzY3NywicyI6MTA3Mzc1MTI0Niwic2lkIjoiZmRlYjE1MTYtNzc5Ni00MjhhLTgxNWItMmM1OTliOGEyNTM4IiwidCI6ZmFsc2UsInVpZCI6MjY4NDY2NDZ9.JgeU38nB7eyaZrmFmu6lGNFeXcrXo8QjTAW2GWlMUdjjiCDZ3eK3g1f9uFn3SonX74NwFr_fzLOLD9l9mf0XPg"
       }
     }
   }
